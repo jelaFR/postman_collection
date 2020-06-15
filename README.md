@@ -10,31 +10,31 @@ For now, it includes collections for the following products:
 ## Cisco ACI (collection)
 With this collection, you could perform the following tasks:
 - **Login tasks**
- - Login
- - Logout
- - Refresh
+  - Login
+  - Logout
+  - Refresh
 - **Modify Tenant**
- - Create a Tenant
- - Create a Bridge Domain / VRF / Subnet
+  - Create a Tenant
+  - Create a Bridge Domain / VRF / Subnet
 - **Display configuration from APIC**
- - Tenant list
- - Bridge Domain list
+  - Tenant list
+  - Bridge Domain list
  
  > For now, you need to perform login task first, then use the action needed.
  > This is to be included in "pre-run scripts" in the future.
  
  # Cisco DCNM (collection)
  - **Login to DCNM**
-  - Login to DCNM and collect token (save it to **dcnm_token** var)
+   - Login to DCNM and collect token (save it to **dcnm_token** var)
  - **Create tasks**
-  - VRFs
-   - Create
-   - Attach
-   - Deploy
-  - Networks
-   - Create
-   - Attach
-   - Deploy
+   - VRFs
+     - Create
+     - Attach
+     - Deploy
+   - Networks
+     - Create
+     - Attach
+     - Deploy
    
  > Some fields on the creation tasks are left with default values
  > This requires a change from your side if you need to change these values
