@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "dbcc5281-eda6-4791-929d-ce93f1c9dd7b",
+		"name": "Cisco ACI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "APIC Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"aaaUser\" : {\r\n    \"attributes\" : {\r\n      \"name\" : \"{{username}}\",\r\n      \"pwd\" : \"{{password}}\"\r\n    }\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "https://{{apic_url}}/api/aaaLogin.json",
+							"protocol": "https",
+							"host": [
+								"{{apic_url}}"
+							],
+							"path": [
+								"api",
+								"aaaLogin.json"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APIC Refresh Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"aaaUser\" : {\r\n    \"attributes\" : {\r\n      \"name\" : \"{{username}}\",\r\n      \"pwd\" : \"{{password}}\"\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "https://{{apic_url}}/api/aaaRefresh.json",
+							"protocol": "https",
+							"host": [
+								"{{apic_url}}"
+							],
+							"path": [
+								"api",
+								"aaaRefresh.json"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APIC Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"aaaUser\" : {\r\n    \"attributes\" : {\r\n      \"name\" : \"{{username}}\",\r\n      \"pwd\" : \"{{password}}\"\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "https://{{apic_url}}/api/aaaLogout.json",
+							"protocol": "https",
+							"host": [
+								"{{apic_url}}"
+							],
+							"path": [
+								"api",
+								"aaaLogout.json"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Tenant configuration",
+			"item": [
+				{
+					"name": "APIC Create Tenant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<fvTenant name=\"{{tenant_name}}\"/>"
+						},
+						"url": {
+							"raw": "https://{{apic_url}}/api/mo/uni.xml",
+							"protocol": "https",
+							"host": [
+								"{{apic_url}}"
+							],
+							"path": [
+								"api",
+								"mo",
+								"uni.xml"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APIC Create BD / VRF / Subnet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<fvTenant name=\"{{tenant_name}}\">\r\n   <fvCtx name=\"{{vrf_name}}\"/>\r\n   <fvBD name=\"{{bd_name}}\">\r\n      <fvRsCtx tnFvCtxName=\"{{vrf_name}}\"/>\r\n      <fvSubnet ip=\"{{subnet_ip}}\"/>\r\n   </fvBD>\r\n</fvTenant>"
+						},
+						"url": {
+							"raw": "https://{{apic_url}}/api/mo/uni/tn-{{tenant_name}}.xml",
+							"protocol": "https",
+							"host": [
+								"{{apic_url}}"
+							],
+							"path": [
+								"api",
+								"mo",
+								"uni",
+								"tn-{{tenant_name}}.xml"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Display configuration",
+			"item": [
+				{
+					"name": "Display Tenants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{apic_url}}/api/node/class/fvTenant.json?query-target-filter=eq(fvTenant.dn,\"uni/tn-JELA\")",
+							"protocol": "https",
+							"host": [
+								"{{apic_url}}"
+							],
+							"path": [
+								"api",
+								"node",
+								"class",
+								"fvTenant.json"
+							],
+							"query": [
+								{
+									"key": "query-target-filter",
+									"value": "eq(fvTenant.dn,\"uni/tn-JELA\")"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Display Bridge Domains",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{apic_url}}/api/node/mo/uni/tn-{{tenant_name}}.json?query-target=children&target-subtree-class=fvBD&rsp-prop-include=naming-only",
+							"protocol": "https",
+							"host": [
+								"{{apic_url}}"
+							],
+							"path": [
+								"api",
+								"node",
+								"mo",
+								"uni",
+								"tn-{{tenant_name}}.json"
+							],
+							"query": [
+								{
+									"key": "query-target",
+									"value": "children"
+								},
+								{
+									"key": "target-subtree-class",
+									"value": "fvBD"
+								},
+								{
+									"key": "rsp-prop-include",
+									"value": "naming-only"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9d819833-778e-4b35-a7aa-2229af9e262a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "258738af-841d-4274-af27-f7f3d5f883b8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
